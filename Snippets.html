@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Snippets</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  overflow: hidden;
+}
+
+/* particles */
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* container */
+.container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 0 40px rgba(0, 150, 255, 0.4);
+  width: 90%;
+  max-width: 500px;
+}
+
+/* title */
+h1 {
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+/* buttons */
+.links a {
+  display: block;
+  margin: 12px 0;
+  padding: 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  transition: 0.3s;
+}
+
+.links a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00c6ff;
+}
+
+/* back */
+.back {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<div class="container">
+  <h1>Code Snippets</h1>
+  <p>Download example scripts or view my full snippet collection.</p>
+
+  <div class="links">
+    <!-- DOWNLOAD ZIP -->
+    <a href="snippets.zip" download>📦 Download Code Pack</a>
+
+    <!-- CREVADO -->
+    <a href="https://mopy.crevado.com" target="_blank">🌐 View Online Snippets</a>
+  </div>
+
+  <a href="Portfolio.html" class="back">⬅ Back</a>
+</div>
+
+<script>
+// particles
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 60 },
+    size: { value: 3 },
+    move: { speed: 1 },
+    line_linked: { enable: true },
+  }
+});
+</script>
+
+</body>
+</html>
