@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Showcases</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  overflow: hidden;
+}
+
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+h1 {
+  position: absolute;
+  top: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+.scene {
+  width: 420px;
+  height: 260px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  perspective: 1200px;
+}
+
+.carousel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+
+/* Panels */
+.panel {
+  position: absolute;
+  width: 360px;
+  height: 220px;
+  left: 30px;
+  top: 20px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 10px;
+  transition: 0.4s;
+  transform-style: preserve-3d;
+}
+
+.panel.active {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px #00c6ff;
+}
+
+/* Video fix */
+.video {
+  width: 100%;
+  height: 100%;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: none;
+}
+
+/* Controls */
+.controls {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  color: white;
+}
+
+.back {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 15px;
+  border-radius: 10px;
+  text-decoration: none;
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<div class="container">
+  <h1>Video Showcases</h1>
+
+  <div class="scene">
+    <div class="carousel" id="carousel"></div>
+  </div>
+
+  <a href="Portfolio.html" class="back">⬅ Back</a>
+
+  <div class="controls">
+    <button onclick="rotate(-1)">⬅</button>
+    <button onclick="rotate(1)">➡</button>
+  </div>
+</div>
+
+<!-- YouTube API -->
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+const data = [
+  { id: "y3xPS1AkosE" },
+  { id: "JiCfXE8skhI" },
+  { id: "YHku6UVkikE" }
+];
+
+const carousel = document.getElementById("carousel");
+const panelCount = data.length;
+const angle = 360 / panelCount;
+const radius = 320;
+
+let currRotation = 0;
+let players = [];
+let currentIndex = 0;
+
+// Create panels
+data.forEach((item, i) => {
+  const panel = document.createElement("div");
+  panel.className = "panel";
+  panel.id = "panel-" + i;
+
+  panel.innerHTML = `
+    <div class="video">
+      <div id="player-${i}"></div>
+    </div>
+  `;
+
+  const panelAngle = angle * i;
+  panel.style.transform = `rotateY(${panelAngle}deg) translateZ(${radius}px)`;
+
+  carousel.appendChild(panel);
+});
+
+// YouTube API ready
+function onYouTubeIframeAPIReady() {
+  data.forEach((item, i) => {
+    players[i] = new YT.Player(`player-${i}`, {
+      videoId: item.id,
+      playerVars: {
+        autoplay: 0,
+        controls: 1,
+        modestbranding: 1
+      },
+      events: {
+        onReady: () => {
+          players[i].mute();
+        }
+      }
+    });
+  });
+
+  updateFocus();
+}
+
+// Rotate wheel
+function rotate(direction) {
+  currRotation += direction * angle;
+  currentIndex = (currentIndex - direction + panelCount) % panelCount;
+
+  carousel.style.transform = `rotateY(${currRotation}deg)`;
+
+  updateFocus();
+}
+
+// Focus + control videos
+function updateFocus() {
+  players.forEach((p, i) => {
+    const panel = document.getElementById("panel-" + i);
+
+    if (i === currentIndex) {
+      panel.classList.add("active");
+      p.unMute();
+    } else {
+      panel.classList.remove("active");
+      p.pauseVideo();
+      p.mute();
+    }
+  });
+}
+
+// Particles
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 60 },
+    size: { value: 3 },
+    move: { speed: 1 },
+    line_linked: { enable: true },
+  }
+});
+</script>
+
+</body>
+</html>
