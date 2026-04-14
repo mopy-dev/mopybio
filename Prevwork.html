@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Previous Workplaces</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  overflow: hidden;
+}
+
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+h1 {
+  position: absolute;
+  top: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+/* 3D Wheel */
+.scene {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  perspective: 1000px;
+}
+
+.carousel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+
+.panel {
+  position: absolute;
+  width: 220px;
+  height: 260px;
+  left: 40px;
+  top: 20px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 0 0 20px rgba(0,150,255,0.4);
+}
+
+.panel img {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.panel h3 {
+  margin-bottom: 8px;
+}
+
+.panel p {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+.panel a {
+  display: block;
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  font-size: 13px;
+}
+
+.controls {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  color: white;
+  font-size: 16px;
+}
+
+.back {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 15px;
+  border-radius: 10px;
+  text-decoration: none;
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<div class="container">
+  <h1>Previous Workplaces</h1>
+
+  <div class="scene">
+    <div class="carousel" id="carousel"></div>
+  </div>
+
+  <a href="Portfolio.html" class="back">⬅ Back</a>
+
+  <div class="controls">
+    <button onclick="rotate(-1)">⬅</button>
+    <button onclick="rotate(1)">➡</button>
+  </div>
+</div>
+
+<script>
+// REAL DATA
+const data = [
+  {
+    name: "Momentum / AERO",
+    img: "https://tr.rbxcdn.com/180DAY-ac306703356ec9fc77d8922ca6e60744/150/150/Image/Webp/noFilter",
+    desc: "Main Scripter of AERO (previously Momentum). Studio now discontinued.",
+    links: [
+      { name: "View Roblox Group", url: "https://www.roblox.com/communities/35673180/Momentum-Games-Official#!/about" }
+    ]
+  },
+  {
+    name: "CrystalForge",
+    img: "https://tr.rbxcdn.com/180DAY-8f31d1ef2bacd2266703fcbd16e9a46f/150/150/Image/Webp/noFilter",
+    desc: "Worked on Find A Brainrot & Steal An Accessory. Scripted everything.",
+    links: [
+      { name: "View Roblox Group", url: "https://www.roblox.com/communities/33321718/CrystalForge-Studio#!/about" }
+    ]
+  },
+  {
+    name: "GermanTax",
+    img: "https://tr.rbxcdn.com/180DAY-5a15965b91e10b35bbe83b5187a41f8f/150/150/Image/Webp/noFilter",
+    desc: "Currently programming and taking commissions regularly.",
+    links: [
+      { name: "View Roblox Group", url: "https://www.roblox.com/communities/988069473/GermanTax#!/about" }
+    ]
+  },
+  {
+    name: "Personal Projects",
+    img: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-765855B8CACB6FD692B7CBB3BE20EC36-Png/150/150/AvatarHeadshot/Webp/noFilter",
+    desc: "Older experiments, early studio work, and foundational learning projects.",
+    links: [
+      { name: "View Roblox Profile", url: "https://www.roblox.com/users/4248642418/profile" }
+    ]
+  },
+  {
+    name: "Future Goals",
+    img: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-765855B8CACB6FD692B7CBB3BE20EC36-Png/150/150/AvatarHeadshot/Webp/noFilter",
+    desc: "Working toward larger projects, team development, and building a studio.",
+    links: [
+      { name: "View SECRET", url: "https://creations.mtdv.me/giveaways/mopy565328_9" }
+    ]
+  }
+];
+
+const carousel = document.getElementById("carousel");
+const panelCount = data.length;
+const angle = 360 / panelCount;
+const radius = 250;
+
+let currRotation = 0;
+
+data.forEach((item, i) => {
+  const panel = document.createElement("div");
+  panel.className = "panel";
+
+  panel.innerHTML = `
+    <img src="${item.img}">
+    <h3>${item.name}</h3>
+    <p>${item.desc}</p>
+    ${item.links.map(l => `<a href="${l.url}" target="_blank">${l.name}</a>`).join("")}
+  `;
+
+  const panelAngle = angle * i;
+  panel.style.transform = `rotateY(${panelAngle}deg) translateZ(${radius}px)`;
+
+  carousel.appendChild(panel);
+});
+
+function rotate(direction) {
+  currRotation += direction * angle;
+  carousel.style.transform = `rotateY(${currRotation}deg)`;
+}
+
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 60 },
+    size: { value: 3 },
+    move: { speed: 1 },
+    line_linked: { enable: true },
+  }
+});
+</script>
+
+</body>
+</html>
