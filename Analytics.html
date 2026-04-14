@@ -18,9 +18,14 @@ body {
   color: white;
   overflow-x: hidden;
   padding: 40px 20px;
+  transition: 0.3s;
 }
 
-/* particles */
+body.light {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe, #93c5fd);
+  color: #111;
+}
+
 #particles-js {
   position: fixed;
   width: 100%;
@@ -28,7 +33,6 @@ body {
   z-index: 0;
 }
 
-/* container */
 .container {
   position: relative;
   z-index: 1;
@@ -37,12 +41,25 @@ body {
   text-align: center;
 }
 
-/* title */
 h1 {
   margin-bottom: 30px;
 }
 
-/* stat cards */
+/* toggle */
+.toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(5px);
+  font-size: 12px;
+  z-index: 2;
+}
+
+/* stats */
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -62,7 +79,7 @@ h1 {
   color: #00c6ff;
 }
 
-/* chart box */
+/* charts */
 .chart-box {
   margin-top: 30px;
   padding: 20px;
@@ -70,6 +87,17 @@ h1 {
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(10px);
   box-shadow: 0 0 25px rgba(0,150,255,0.3);
+}
+
+/* inputs */
+input {
+  width: 80%;
+  padding: 12px;
+  margin: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 16px;
 }
 
 /* back */
@@ -83,7 +111,6 @@ h1 {
   color: white;
 }
 
-/* footer */
 .footer {
   margin-top: 30px;
   font-size: 12px;
@@ -96,11 +123,12 @@ h1 {
 
 <div id="particles-js"></div>
 
+<div class="toggle" onclick="toggleTheme()">🌙 / ☀️</div>
+
 <div class="container">
 
   <h1>📊 Analytics</h1>
 
-  <!-- STAT CARDS -->
   <div class="stats">
     <div class="stat">
       <h2>50M+</h2>
@@ -109,7 +137,7 @@ h1 {
 
     <div class="stat">
       <h2>1.2M</h2>
-      <p>Robux Earned</p>
+      <p>Robux Earned Last Month</p>
     </div>
 
     <div class="stat">
@@ -118,14 +146,18 @@ h1 {
     </div>
   </div>
 
-  <!-- BAR CHART -->
   <div class="chart-box">
     <canvas id="barChart"></canvas>
   </div>
 
-  <!-- PIE CHART -->
   <div class="chart-box">
     <canvas id="pieChart"></canvas>
+  </div>
+
+  <div class="chart-box">
+    <h2>💱 DevEx Calculator</h2>
+    <input id="robuxInput" type="number" placeholder="Enter Robux...">
+    <input id="usdInput" type="number" placeholder="Enter USD...">
   </div>
 
   <a href="Portfolio.html" class="back">⬅ Back</a>
@@ -144,36 +176,79 @@ particlesJS("particles-js", {
   }
 });
 
-// BAR CHART
-new Chart(document.getElementById('barChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Visits (M)', 'Robux (M)', 'Years'],
-    datasets: [{
-      label: 'Stats',
-      data: [50, 1.2, 7],
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { display: false }
+// THEME
+function toggleTheme() {
+  document.body.classList.toggle("light");
+  updateCharts();
+}
+
+let barChart, pieChart;
+
+function createCharts(color) {
+  if (barChart) barChart.destroy();
+  if (pieChart) pieChart.destroy();
+
+  barChart = new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Visits (M)', 'Robux Last Month (K)', 'Years'],
+      datasets: [{
+        data: [50, 1200, 7],
+        backgroundColor: '#00c6ff'
+      }]
+    },
+    options: {
+      scales: {
+        x: { ticks: { color } },
+        y: { ticks: { color } }
+      },
+      plugins: {
+        legend: { display: false }
+      }
     }
-  }
+  });
+
+  pieChart = new Chart(document.getElementById('pieChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Visits Impact', 'Earnings', 'Experience'],
+      datasets: [{
+        data: [60, 30, 10]
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          labels: { color }
+        }
+      }
+    }
+  });
+}
+
+function updateCharts() {
+  const isLight = document.body.classList.contains("light");
+  const color = isLight ? "#111" : "#fff";
+  createCharts(color);
+}
+
+// init charts
+updateCharts();
+
+// DEVEX CALCULATOR
+const robuxInput = document.getElementById("robuxInput");
+const usdInput = document.getElementById("usdInput");
+
+const RATE = 38 / 10000;
+
+robuxInput.addEventListener("input", () => {
+  const robux = robuxInput.value;
+  usdInput.value = robux ? (robux * RATE).toFixed(2) : "";
 });
 
-// PIE CHART
-new Chart(document.getElementById('pieChart'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Visits Impact', 'Earnings', 'Experience'],
-    datasets: [{
-      data: [70, 20, 10],
-    }]
-  },
-  options: {
-    responsive: true
-  }
+usdInput.addEventListener("input", () => {
+  const usd = usdInput.value;
+  robuxInput.value = usd ? Math.round(usd / RATE) : "";
 });
 </script>
 
